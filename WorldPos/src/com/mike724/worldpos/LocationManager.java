@@ -24,6 +24,9 @@ public class LocationManager {
 		String line;
 		while((line = in.readLine())!=null) {
 			String[] params = line.split(",");
+			if(params.length!=4) {
+				continue;
+			}
 			if(params[0].equalsIgnoreCase(world.getName())) {
 				in.close();
 				return(new Location(world, Double.parseDouble(params[1]), Double.parseDouble(params[2]), Double.parseDouble(params[3])));
