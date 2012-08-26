@@ -11,6 +11,12 @@ import org.bukkit.entity.Player;
 
 public class WPCommands implements CommandExecutor {
 	
+	private WorldPos plugin;
+	
+	public WPCommands(WorldPos wp) {
+		plugin = wp;
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(command.getName().equalsIgnoreCase("world") || command.getName().equalsIgnoreCase("worldwarp")) {
@@ -25,14 +31,12 @@ public class WPCommands implements CommandExecutor {
 				return false;
 			}
 			String wn = (w==null) ? "null" : w.getName();
-			boolean perm = false;
 			if(p==null) {
-				sender.sendMessage(ChatColor.RED+"Target Player could not be found"); return false;
+				sender.sendMessage(ChatColor.RED+"Target player could not be found"); return false;
 			} else if(w==null) {
 				sender.sendMessage(ChatColor.RED+"Target world could not be found"); return false;
 			}
-			perm = p.hasPermission("WorldPos.world."+wn);
-			if(!perm) {
+			if(!p.hasPermission("WorldPos.world."+wn)) {
 				sender.sendMessage(ChatColor.RED+"You do not have permission to access that world"); return true;
 			}
 			if(w!=p.getWorld()) {

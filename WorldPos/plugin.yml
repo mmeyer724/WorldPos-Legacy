@@ -9,3 +9,6 @@ commands:
     worldwarp:
         description: Teleports you to the specified world.
         usage: /<command> [player] <world>
+    worldpos:
+        description: Displays version of WorldPos installed
+        usage: /<command>
