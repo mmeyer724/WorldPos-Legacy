@@ -1,6 +1,7 @@
 roundPosition: false
 portalSupport: false
 hostnameSupport: false
+messageOnHostnameTeleportToWorld: true
 hostnames:
  creative:
   hostname: "creative.mike724.com"

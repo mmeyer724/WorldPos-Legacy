@@ -2,8 +2,10 @@ package com.mike724.worldpos;
 
 import java.io.IOException;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -11,15 +13,25 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class WPListener implements Listener {
 	
+	private WorldPos plugin;
+	
 	public WPListener(WorldPos wp) {
+		plugin = wp;
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
+		Player p = event.getPlayer();
+		if(Settings.hostnameTeleport.containsKey(p)) {
+			World w = Settings.hostnameTeleport.get(p).getWorld();
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedTeleport(p,w), 1L);
+			if(Settings.hostnameMessage) {
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 2L);
+			}
+		}
+		
 		String wnF = event.getFrom().getWorld().getName();
 		String wnT = event.getTo().getWorld().getName();
-		Player p = event.getPlayer();
-		p.getName();
 		
 		if(Settings.portalSupport) {
 			if(!wnF.equalsIgnoreCase(wnT) && event.getTo().getY()==300) {
@@ -53,16 +65,20 @@ public class WPListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerLogin(PlayerLoginEvent event) {
-		for(Hostname hn : Settings.hostnames) {
-			if(hn.getHostname().equalsIgnoreCase(event.getHostname())) {
-				Player p = event.getPlayer();
-				if(!p.hasPermission("WorldPos.hostname."+hn.getKey())) {
-					p.sendMessage(ChatColor.RED+"You do not have permission to access that world via hostname/domain");
-					return;
+		if(Settings.hostnameSupport) {
+			for(Hostname hn : Settings.hostnames) {
+				String host = (hn.getHostname().split(":").length==2) ? hn.getHostname() : hn.getHostname()+":"+plugin.getServer().getPort();
+				if(event.getHostname().equalsIgnoreCase(host)) {
+					Player p = event.getPlayer();
+					if(!p.hasPermission("WorldPos.hostname."+hn.getKey())) {
+						event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+						event.setKickMessage("You do not have permission to access that world");
+						return;
+					}
+					Settings.hostnameTeleport.put(p, hn);
 				}
-				p.sendMessage("Teleport to world "+hn.getWorld().getName()+" due to hostname "+event.getHostname());
 			}
 		}
 	}

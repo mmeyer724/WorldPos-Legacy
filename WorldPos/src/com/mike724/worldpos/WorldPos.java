@@ -21,6 +21,7 @@ public class WorldPos extends JavaPlugin {
 		Settings.round = getConfig().getBoolean("roundPosition");
 		Settings.portalSupport = getConfig().getBoolean("portalSupport");
 		Settings.hostnameSupport = getConfig().getBoolean("hostnameSupport");
+		Settings.hostnameMessage = getConfig().getBoolean("messageOnHostnameTeleportToWorld");
 		Set<String> keys = getConfig().getConfigurationSection("hostnames").getKeys(false);
 		for(String key : keys) {
 			Hostname hn = new Hostname(getConfig().getString("hostnames."+key+".hostname"),key,getConfig().getString("hostnames."+key+".world"));

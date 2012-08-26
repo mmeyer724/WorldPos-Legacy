@@ -57,7 +57,7 @@ public class WPCommands implements CommandExecutor {
 		}
 		if(command.getName().equalsIgnoreCase("worldpos")) {
 			PluginDescriptionFile pdf = plugin.getDescription();
-			sender.sendMessage(String.format(ChatColor.AQUA+"%s v%s by %s is "+ChatColor.GOLD+"running", pdf.getName(), pdf.getVersion(), pdf.getAuthors().get(0)));
+			sender.sendMessage(ChatColor.AQUA+"WorldPos v"+pdf.getVersion()+" by Mike724 is "+ChatColor.GOLD+"running");
 			return true;
 		}
 		return false;
