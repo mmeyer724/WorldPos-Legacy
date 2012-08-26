@@ -20,6 +20,11 @@ public class WPCommands implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if(command.getName().equalsIgnoreCase("worldpos")) {
+			PluginDescriptionFile pdf = plugin.getDescription();
+			sender.sendMessage(ChatColor.AQUA+"WorldPos v"+pdf.getVersion()+" by Mike724 is "+ChatColor.GOLD+"running");
+			return true;
+		}
 		if(command.getName().equalsIgnoreCase("world") || command.getName().equalsIgnoreCase("worldwarp")) {
 			World w; Player p;
 			if(args.length==1) {
@@ -54,11 +59,6 @@ public class WPCommands implements CommandExecutor {
 				sender.sendMessage(ChatColor.AQUA+"You are already in world "+ChatColor.YELLOW+wn);
 				return true;
 			}
-		}
-		if(command.getName().equalsIgnoreCase("worldpos")) {
-			PluginDescriptionFile pdf = plugin.getDescription();
-			sender.sendMessage(ChatColor.AQUA+"WorldPos v"+pdf.getVersion()+" by Mike724 is "+ChatColor.GOLD+"running");
-			return true;
 		}
 		return false;
 	}

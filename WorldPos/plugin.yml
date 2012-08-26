@@ -1,14 +1,14 @@
 name: WorldPos
 main: com.mike724.worldpos.WorldPos
 author: Mike724
-version: 2
+version: 3.1
 commands:
+    worldpos:
+        description: Displays version of WorldPos installed
+        usage: /<command>
     world:
         description: Teleports you to the specified world.
         usage: /<command> [player] <world>
     worldwarp:
         description: Teleports you to the specified world.
         usage: /<command> [player] <world>
-    worldpos:
-        description: Displays version of WorldPos installed
-        usage: /<command>
