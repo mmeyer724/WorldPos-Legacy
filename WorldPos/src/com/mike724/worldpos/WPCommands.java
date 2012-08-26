@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 public class WPCommands implements CommandExecutor {
 	
@@ -53,6 +54,11 @@ public class WPCommands implements CommandExecutor {
 				sender.sendMessage(ChatColor.AQUA+"You are already in world "+ChatColor.YELLOW+wn);
 				return true;
 			}
+		}
+		if(command.getName().equalsIgnoreCase("worldpos")) {
+			PluginDescriptionFile pdf = plugin.getDescription();
+			sender.sendMessage(String.format(ChatColor.AQUA+"%s v%s by %s is "+ChatColor.GOLD+"running", pdf.getName(), pdf.getVersion(), pdf.getAuthors().get(0)));
+			return true;
 		}
 		return false;
 	}

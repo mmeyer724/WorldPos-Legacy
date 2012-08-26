@@ -23,7 +23,7 @@ public class WorldPos extends JavaPlugin {
 		Settings.hostnameSupport = getConfig().getBoolean("hostnameSupport");
 		Set<String> keys = getConfig().getConfigurationSection("hostnames").getKeys(false);
 		for(String key : keys) {
-			Hostname hn = new Hostname(getConfig().getString("hostnames."+key+".hostname"),getConfig().getString("hostnames."+key+".world"));
+			Hostname hn = new Hostname(getConfig().getString("hostnames."+key+".hostname"),key,getConfig().getString("hostnames."+key+".world"));
 			if(hn!=null) {
 				Settings.hostnames.add(hn);
 			}

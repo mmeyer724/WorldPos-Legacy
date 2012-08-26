@@ -4,8 +4,8 @@ import java.io.IOException;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -43,7 +43,7 @@ public class WPListener implements Listener {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player p = event.getPlayer();
 		try {
@@ -52,5 +52,21 @@ public class WPListener implements Listener {
 			e.printStackTrace();
 		}
 	}
+	
+	@EventHandler
+	public void onPlayerLogin(PlayerLoginEvent event) {
+		for(Hostname hn : Settings.hostnames) {
+			if(hn.getHostname().equalsIgnoreCase(event.getHostname())) {
+				Player p = event.getPlayer();
+				if(!p.hasPermission("WorldPos.hostname."+hn.getKey())) {
+					p.sendMessage(ChatColor.RED+"You do not have permission to access that world via hostname/domain");
+					return;
+				}
+				p.sendMessage("Teleport to world "+hn.getWorld().getName()+" due to hostname "+event.getHostname());
+			}
+		}
+	}
+	
+	
 
 }
