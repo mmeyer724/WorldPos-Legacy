@@ -1,0 +1,11 @@
+name: WorldPos
+main: com.mike724.worldpos.WorldPos
+author: Mike724
+version: 2
+commands:
+    world:
+        description: Teleports you to the specified world.
+        usage: /<command> [player] <world>
+    worldwarp:
+        description: Teleports you to the specified world.
+        usage: /<command> [player] <world>
