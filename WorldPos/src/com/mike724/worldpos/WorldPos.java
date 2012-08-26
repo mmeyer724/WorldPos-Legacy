@@ -1,6 +1,8 @@
 package com.mike724.worldpos;
 
 import java.io.File;
+import java.util.Set;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class WorldPos extends JavaPlugin {
@@ -18,6 +20,14 @@ public class WorldPos extends JavaPlugin {
 		Settings.dataDir.mkdir();
 		Settings.round = getConfig().getBoolean("roundPosition");
 		Settings.portalSupport = getConfig().getBoolean("portalSupport");
+		Settings.hostnameSupport = getConfig().getBoolean("hostnameSupport");
+		Set<String> keys = getConfig().getConfigurationSection("hostnames").getKeys(false);
+		for(String key : keys) {
+			Hostname hn = new Hostname(getConfig().getString("hostnames."+key+".hostname"),getConfig().getString("hostnames."+key+".world"));
+			if(hn!=null) {
+				Settings.hostnames.add(hn);
+			}
+		}
 		WPCommands wpc = new WPCommands();
 		this.getCommand("world").setExecutor(wpc);
 		this.getCommand("worldwarp").setExecutor(wpc);

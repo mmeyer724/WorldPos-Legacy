@@ -1,2 +1,7 @@
 roundPosition: false
 portalSupport: false
+hostnameSupport: false
+hostnames:
+ creative:
+  hostname: "creative.mike724.com"
+  world: "creative"
