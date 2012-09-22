@@ -4,7 +4,7 @@ author: Mike724
 version: 3.1
 commands:
     worldpos:
-        description: Displays version of WorldPos installed
+        description: Displays version of WorldPos installed.
         usage: /<command>
     world:
         description: Teleports you to the specified world.
