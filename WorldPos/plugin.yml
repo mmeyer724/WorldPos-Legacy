@@ -1,7 +1,7 @@
 name: WorldPos
 main: com.mike724.worldpos.WorldPos
 author: Mike724
-version: 3.1
+version: 3.2
 commands:
     worldpos:
         description: Displays version of WorldPos installed.

@@ -29,6 +29,7 @@ public class WPListener implements Listener {
 				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 3L);
 			}
 			Settings.hostnameTeleport.remove(p);
+			return;
 		}
 		
 		String wnF = event.getFrom().getWorld().getName();
@@ -79,6 +80,7 @@ public class WPListener implements Listener {
 						return;
 					}
 					Settings.hostnameTeleport.put(p, hn);
+					return;
 				}
 			}
 		}

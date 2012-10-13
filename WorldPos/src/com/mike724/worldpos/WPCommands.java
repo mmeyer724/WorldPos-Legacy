@@ -39,7 +39,8 @@ public class WPCommands implements CommandExecutor {
 			String wn = (w==null) ? "null" : w.getName();
 			if(p==null) {
 				sender.sendMessage(ChatColor.RED+"Target player could not be found"); return false;
-			} else if(w==null) {
+			}
+			if(w==null) {
 				sender.sendMessage(ChatColor.RED+"Target world could not be found"); return false;
 			}
 			if(!p.hasPermission("WorldPos.world."+wn)) {
@@ -53,6 +54,7 @@ public class WPCommands implements CommandExecutor {
 				} catch(IOException e) {
 					e.printStackTrace();
 					p.sendMessage(ChatColor.RED+"Could not read player data! Report to admin");
+					plugin.getLogger().severe("ERROR Reading player position data, report this please.");
 					return true;
 				}
 			} else {
