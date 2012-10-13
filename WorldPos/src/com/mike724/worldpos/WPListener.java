@@ -24,7 +24,7 @@ public class WPListener implements Listener {
 		Player p = event.getPlayer();
 		if(Settings.hostnameTeleport.containsKey(p)) {
 			World w = Settings.hostnameTeleport.get(p).getWorld();
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedTeleport(p,w), 2L);
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedTeleport(p,w), 1L);
 			if(Settings.hostnameMessage) {
 				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 3L);
 			}
