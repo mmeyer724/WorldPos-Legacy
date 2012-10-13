@@ -9,9 +9,9 @@ public class Hostname {
 	private String key;
 	private World world;
 	
-	public Hostname(String hm, String k, String w) {
+	public Hostname(String hm, String k, String w) throws Exception {
 		if((world = Bukkit.getWorld(w))==null) {
-			return;
+			throw new Exception();
 		}
 		key = k;
 		hostname = hm;
