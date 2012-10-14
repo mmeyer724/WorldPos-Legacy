@@ -26,7 +26,7 @@ public class WPListener implements Listener {
 			World w = Settings.hostnameTeleport.get(p).getWorld();
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedTeleport(p,w), 1L);
 			if(Settings.hostnameMessage) {
-				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 3L);
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 5L);
 			}
 			Settings.hostnameTeleport.remove(p);
 			return;
@@ -85,7 +85,4 @@ public class WPListener implements Listener {
 			}
 		}
 	}
-	
-	
-
 }
