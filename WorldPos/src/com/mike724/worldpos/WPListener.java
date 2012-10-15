@@ -29,6 +29,7 @@ public class WPListener implements Listener {
 				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 5L);
 			}
 			Settings.hostnameTeleport.remove(p);
+			Settings.justHNTeleported.add(p.getName());
 			return;
 		}
 		
@@ -49,8 +50,12 @@ public class WPListener implements Listener {
 		
 		if(!wnF.equalsIgnoreCase(wnT)) {
 			try {
-				LocationManager.setPastLocation(event.getFrom(), event.getPlayer());
-				p.sendMessage(ChatColor.AQUA+"Your previous position in world "+ChatColor.YELLOW+wnF+ChatColor.AQUA+" has been saved.");
+				LocationManager.setPastLocation(event.getFrom(), p);
+				if(!Settings.justHNTeleported.contains(p.getName())) {
+					p.sendMessage(ChatColor.AQUA+"Your previous position in world "+ChatColor.YELLOW+wnF+ChatColor.AQUA+" has been saved.");
+				} else {
+					Settings.justHNTeleported.remove(p.getName());
+				}
 			} catch(IOException ex) {
 				ex.printStackTrace();
 			}

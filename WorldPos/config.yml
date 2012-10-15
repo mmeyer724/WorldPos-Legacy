@@ -4,5 +4,5 @@ hostnameSupport: false
 messageOnHostnameTeleportToWorld: true
 hostnames:
  creative:
-  hostname: "creative.mike724.com"
-  world: "creative"
+  hostname: creative.mike724.com
+  world: creative

@@ -21,8 +21,11 @@ public class WPCommands implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(command.getName().equalsIgnoreCase("worldpos")) {
-			PluginDescriptionFile pdf = plugin.getDescription();
-			sender.sendMessage(ChatColor.AQUA+"WorldPos v"+pdf.getVersion()+" by Mike724 is "+ChatColor.GOLD+"running");
+			if(args.length==0) {
+				PluginDescriptionFile pdf = plugin.getDescription();
+				sender.sendMessage(ChatColor.AQUA+"WorldPos v"+pdf.getVersion()+" by Mike724 is "+ChatColor.GOLD+"running");
+				return true;
+			}
 			return true;
 		}
 		if(command.getName().equalsIgnoreCase("world") || command.getName().equalsIgnoreCase("worldwarp")) {
