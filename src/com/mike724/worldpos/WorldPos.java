@@ -1,10 +1,13 @@
 package com.mike724.worldpos;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.mike724.worldpos.metrics.MetricsLite;
 
 public class WorldPos extends JavaPlugin {
 
@@ -48,6 +51,13 @@ public class WorldPos extends JavaPlugin {
 		this.getCommand("worldwarp").setExecutor(wpc);
 		this.getCommand("worldpos").setExecutor(wpc);
 		this.getServer().getPluginManager().registerEvents(new WPListener(this), this);
+		//Enable plugin metrics
+		try {
+			MetricsLite metrics = new MetricsLite(this);
+			metrics.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.getLogger().info("Enabled successfully");
 	}
 }
