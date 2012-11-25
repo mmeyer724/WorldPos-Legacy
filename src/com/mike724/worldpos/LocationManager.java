@@ -23,8 +23,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -67,7 +69,7 @@ public class LocationManager {
 			}
 		}
 		in.close();
-		DecimalFormat df = new DecimalFormat("#.#####");
+		DecimalFormat df = new DecimalFormat("#.#####", new DecimalFormatSymbols(Locale.US));
 		String newLocLine = (Settings.round) ?
 				needle+","+loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ() : 
 				needle+","+df.format(loc.getX())+","+df.format(loc.getY())+","+df.format(loc.getZ());
