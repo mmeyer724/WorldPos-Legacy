@@ -17,6 +17,8 @@
 package com.mike724.worldpos;
 
 import java.io.IOException;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -45,6 +47,25 @@ public class WPCommands implements CommandExecutor {
 			return true;
 		}
 		if(command.getName().equalsIgnoreCase("world") || command.getName().equalsIgnoreCase("worldwarp")) {
+			if(args.length==1) {
+				if(args[0].equalsIgnoreCase("list")) {
+					//Check if the world by the name "list" exists, if it doesn't continue
+					if(Bukkit.getWorld("list")==null) {
+						//Do they have permission?
+						if(!sender.hasPermission("WorldPos.list")) {
+							sender.sendMessage(ChatColor.RED+"You do not have permission to list all worlds!");
+							return true;
+						}
+						List<World> worlds = Bukkit.getWorlds();
+						String send = ChatColor.AQUA+"[WorldPos]"+ChatColor.WHITE+" List of worlds: "+ChatColor.GRAY;
+						for(World w : worlds) {
+							send += w.getName()+", ";
+						}
+						sender.sendMessage(send.substring(0, send.length()-2));
+						return true;
+					}
+				}
+			}
 			World w; Player p;
 			if(args.length==1) {
 				w = Bukkit.getWorld(args[0]);
