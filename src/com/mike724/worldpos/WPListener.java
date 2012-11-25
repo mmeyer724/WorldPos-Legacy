@@ -55,8 +55,13 @@ public class WPListener implements Listener {
 		if(Settings.portalSupport) {
 			if(!wnF.equalsIgnoreCase(wnT) && event.getTo().getY()==300) {
 				try {
-					event.setTo(LocationManager.getPastLocation(event.getTo().getWorld(), p));
-					p.sendMessage(ChatColor.AQUA+"Teleported to world "+ChatColor.YELLOW+wnT+ChatColor.AQUA+" via portal.");
+					if(!p.hasPermission("WorldPos.portal."+wnT)) {
+						p.sendMessage(ChatColor.RED+"You do not have permission to use this portal");
+						event.setCancelled(true);
+					} else {
+						event.setTo(LocationManager.getPastLocation(event.getTo().getWorld(), p));
+						p.sendMessage(ChatColor.AQUA+"Teleported to world "+ChatColor.YELLOW+wnT+ChatColor.AQUA+" via portal.");
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
