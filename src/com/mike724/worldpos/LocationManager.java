@@ -69,7 +69,7 @@ public class LocationManager {
 			}
 		}
 		in.close();
-		DecimalFormat df = new DecimalFormat("#.#####", new DecimalFormatSymbols(Locale.US));
+		DecimalFormat df = new DecimalFormat("#.######", new DecimalFormatSymbols(Locale.US));
 		String newLocLine = (Settings.round) ?
 				needle+","+loc.getBlockX()+","+loc.getBlockY()+","+loc.getBlockZ() : 
 				needle+","+df.format(loc.getX())+","+df.format(loc.getY())+","+df.format(loc.getZ());
