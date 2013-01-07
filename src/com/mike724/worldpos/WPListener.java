@@ -38,13 +38,13 @@ public class WPListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		Player p = event.getPlayer();
-		if(Settings.hostnameTeleport.containsKey(p)) {
-			World w = Settings.hostnameTeleport.get(p).getWorld();
+		if(Settings.hostnameTeleport.containsKey(p.getName())) {
+			World w = Settings.hostnameTeleport.get(p.getName()).getWorld();
 			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedTeleport(p,w), 1L);
 			if(Settings.hostnameMessage) {
 				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 5L);
 			}
-			Settings.hostnameTeleport.remove(p);
+			Settings.hostnameTeleport.remove(p.getName());
 			Settings.justHNTeleported.add(p.getName());
 			return;
 		}
@@ -105,7 +105,7 @@ public class WPListener implements Listener {
 						event.setKickMessage("You do not have permission to access that world");
 						return;
 					}
-					Settings.hostnameTeleport.put(p, hn);
+					Settings.hostnameTeleport.put(p.getName(), hn);
 					return;
 				}
 			}
