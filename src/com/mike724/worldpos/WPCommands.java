@@ -16,9 +16,7 @@
 */
 package com.mike724.worldpos;
 
-import java.io.IOException;
 import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -86,21 +84,13 @@ public class WPCommands implements CommandExecutor {
 			if(!p.hasPermission("WorldPos.world."+wn)) {
 				sender.sendMessage(ChatColor.RED+"You do not have permission to access that world"); return true;
 			}
+			WPPlayer wpPlayer = Settings.getWPPlayer(p);
 			if(w!=p.getWorld()) {
-				try {
-					p.teleport(LocationManager.getPastLocation(w, p));
-					p.sendMessage(ChatColor.AQUA+"Teleported to world "+ChatColor.YELLOW+wn);
-					return true;
-				} catch(IOException e) {
-					e.printStackTrace();
-					p.sendMessage(ChatColor.RED+"Could not read player data! Report to admin");
-					plugin.getLogger().severe("ERROR Reading player position data, report this please.");
-					return true;
-				}
+				wpPlayer.doCommandTeleport(w);
 			} else {
-				sender.sendMessage(ChatColor.AQUA+"You are already in world "+ChatColor.YELLOW+wn);
-				return true;
+				wpPlayer.sendTeleportMessage(wn, WPReason.ALREADYINWORLD);
 			}
+			return true;
 		}
 		return false;
 	}
