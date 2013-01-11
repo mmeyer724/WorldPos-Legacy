@@ -66,6 +66,7 @@ public class WorldPos extends JavaPlugin {
 		this.getCommand("world").setExecutor(wpc);
 		this.getCommand("worldwarp").setExecutor(wpc);
 		this.getCommand("worldpos").setExecutor(wpc);
+		this.getCommand("wp").setExecutor(wpc);
 		this.getServer().getPluginManager().registerEvents(new WPListener(this), this);
 		//Enable plugin metrics
 		try {

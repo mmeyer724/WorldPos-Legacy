@@ -22,6 +22,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 public class Settings {
 	public static File dataDir = null;
 	public static boolean round = false;
@@ -31,4 +35,9 @@ public class Settings {
 	public static ArrayList<Hostname> hostnames = new ArrayList<Hostname>();
 	public static HashMap<String, Hostname> hostnameTeleport = new HashMap<String, Hostname>();
 	public static Set<String> justHNTeleported = new HashSet<String>();
+	public static HashMap<String, Location> previousLocations = new HashMap<String, Location>();
+	
+	public static void setPreviousLocation(Player p, Location loc) {
+		Settings.previousLocations.put(p.getName(), loc);
+	}
 }

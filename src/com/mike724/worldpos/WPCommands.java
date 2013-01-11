@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -38,34 +39,44 @@ public class WPCommands implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(command.getName().equalsIgnoreCase("worldpos")) {
+		if(command.getName().equalsIgnoreCase("worldpos") || command.getName().equalsIgnoreCase("wp")) {
 			if(args.length==0) {
 				PluginDescriptionFile pdf = plugin.getDescription();
 				sender.sendMessage(ChatColor.AQUA+"WorldPos v"+pdf.getVersion()+" by Mike724 is "+ChatColor.GOLD+"running");
 				return true;
+			} else if(args.length == 1) {
+				if(args[0].equalsIgnoreCase("list")) {
+					if(!sender.hasPermission("WorldPos.list")) {
+						sender.sendMessage(ChatColor.RED+"You do not have permission to list all worlds!");
+						return true;
+					}
+					List<World> worlds = Bukkit.getWorlds();
+					String send = ChatColor.AQUA+"[WorldPos]"+ChatColor.WHITE+" List of worlds: "+ChatColor.GRAY;
+					for(World w : worlds) {
+						send += w.getName()+", ";
+					}
+					sender.sendMessage(send.substring(0, send.length()-2));
+					return true;
+				} else if(args[0].equalsIgnoreCase("back")) {
+					if(sender instanceof Player) {
+						Player p = Bukkit.getPlayerExact(sender.getName());
+						if(!p.hasPermission("WorldPos.back")) {
+							sender.sendMessage(ChatColor.RED+"You do not have permission to go back!"); return true;
+						}
+						Location loc = Settings.previousLocations.get(p.getName());
+						if(loc!=null) {
+							p.teleport(loc); return true;
+						} else {
+							p.sendMessage(ChatColor.RED+"No previous position is known for this session"); return true;
+						}
+					} else {
+						sender.sendMessage(ChatColor.RED+"Only players can do that!"); return true;
+					}
+				}
 			}
 			return true;
 		}
 		if(command.getName().equalsIgnoreCase("world") || command.getName().equalsIgnoreCase("worldwarp")) {
-			if(args.length==1) {
-				if(args[0].equalsIgnoreCase("list")) {
-					//Check if the world by the name "list" exists, if it doesn't continue
-					if(Bukkit.getWorld("list")==null) {
-						//Do they have permission?
-						if(!sender.hasPermission("WorldPos.list")) {
-							sender.sendMessage(ChatColor.RED+"You do not have permission to list all worlds!");
-							return true;
-						}
-						List<World> worlds = Bukkit.getWorlds();
-						String send = ChatColor.AQUA+"[WorldPos]"+ChatColor.WHITE+" List of worlds: "+ChatColor.GRAY;
-						for(World w : worlds) {
-							send += w.getName()+", ";
-						}
-						sender.sendMessage(send.substring(0, send.length()-2));
-						return true;
-					}
-				}
-			}
 			World w; Player p;
 			if(args.length==1) {
 				w = Bukkit.getWorld(args[0]);

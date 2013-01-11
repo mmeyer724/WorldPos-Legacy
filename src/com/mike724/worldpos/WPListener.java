@@ -72,6 +72,7 @@ public class WPListener implements Listener {
 		if(!wnF.equalsIgnoreCase(wnT)) {
 			try {
 				LocationManager.setPastLocation(event.getFrom(), p);
+				Settings.setPreviousLocation(p, event.getFrom());
 				if(!Settings.justHNTeleported.contains(p.getName())) {
 					p.sendMessage(ChatColor.AQUA+"Your previous position in world "+ChatColor.YELLOW+wnF+ChatColor.AQUA+" has been saved.");
 				} else {
