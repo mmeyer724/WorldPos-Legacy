@@ -16,7 +16,9 @@
 */
 package com.mike724.worldpos;
 
+import java.io.IOException;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,38 +37,60 @@ public class WPListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
-		
 		Player p = event.getPlayer();
-		WPPlayer wpPlayer = Settings.getWPPlayer(p);
-		
-		if(wpPlayer.isPendingHostnameTeleport()) {
-			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedHostnameTeleport(wpPlayer));
+		if(Settings.hostnameTeleport.containsKey(p.getName())) {
+			World w = Settings.hostnameTeleport.get(p.getName()).getWorld();
+			plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedTeleport(p,w), 1L);
+			if(Settings.hostnameMessage) {
+				plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p,ChatColor.AQUA+"Welcome to world "+ChatColor.YELLOW+w.getName()), 5L);
+			}
+			Settings.hostnameTeleport.remove(p.getName());
+			Settings.justHNTeleported.add(p.getName());
 			return;
 		}
 		
-		String worldNameFrom = event.getFrom().getWorld().getName();
-		String worldNameTo = event.getTo().getWorld().getName();
-		boolean diffWorlds = worldNameFrom!=worldNameTo;
+		String wnF = event.getFrom().getWorld().getName();
+		String wnT = event.getTo().getWorld().getName();
 		
 		if(Settings.portalSupport) {
-			if(diffWorlds && event.getTo().getY()==300) {
-				if(!p.hasPermission("WorldPos.portal."+worldNameTo)) {
-					p.sendMessage(ChatColor.RED+"You do not have permission to use this portal");
-					event.setCancelled(true);
-				} else {
-					wpPlayer.handlePortalTeleport(event);
+			if(!wnF.equalsIgnoreCase(wnT) && event.getTo().getY()==300) {
+				try {
+					if(!p.hasPermission("WorldPos.portal."+wnT)) {
+						p.sendMessage(ChatColor.RED+"You do not have permission to use this portal");
+						event.setCancelled(true);
+					} else {
+						event.setTo(LocationManager.getPastLocation(event.getTo().getWorld(), p));
+						p.sendMessage(ChatColor.AQUA+"Teleported to world "+ChatColor.YELLOW+wnT+ChatColor.AQUA+" via portal.");
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
+				return;
 			}
 		}
 		
-		if(diffWorlds) {
-			wpPlayer.setLastLocationForced(event.getFrom());
+		if(!wnF.equalsIgnoreCase(wnT)) {
+			try {
+				LocationManager.setPastLocation(event.getFrom(), p);
+				if(!Settings.justHNTeleported.contains(p.getName())) {
+					p.sendMessage(ChatColor.AQUA+"Your previous position in world "+ChatColor.YELLOW+wnF+ChatColor.AQUA+" has been saved.");
+				} else {
+					Settings.justHNTeleported.remove(p.getName());
+				}
+			} catch(IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 	
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		Settings.getWPPlayer(event.getPlayer()).saveCurrentPosition();
+		Player p = event.getPlayer();
+		try {
+			LocationManager.setPastLocation(p.getLocation(), p);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
@@ -81,7 +105,7 @@ public class WPListener implements Listener {
 						event.setKickMessage("You do not have permission to access that world");
 						return;
 					}
-					Settings.getWPPlayer(p).setHostnameTeleportPending(hn);
+					Settings.hostnameTeleport.put(p.getName(), hn);
 					return;
 				}
 			}

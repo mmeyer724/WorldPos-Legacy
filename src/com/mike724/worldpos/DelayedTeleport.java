@@ -16,17 +16,27 @@
 */
 package com.mike724.worldpos;
 
-public class DelayedHostnameTeleport implements Runnable {
+import java.io.IOException;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+
+public class DelayedTeleport implements Runnable {
 	
-	private WPPlayer wpPlayer;
+	private Player p;
+	private World w;
 	
-	public DelayedHostnameTeleport(WPPlayer wpPlayer) {
-		this.wpPlayer = wpPlayer;
+	public DelayedTeleport(Player player, World world) {
+		p = player;
+		w = world;
 	}
 
 	@Override
 	public void run() {
-		wpPlayer.doHostnameTeleport();
+		try {
+			p.teleport(LocationManager.getPastLocation(w, p));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
