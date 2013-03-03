@@ -40,9 +40,11 @@ public class WorldPos extends JavaPlugin {
 		if(!Settings.dataDir.exists()) {
 			Settings.dataDir.mkdir();
 		}
-		this.getConfig().options().copyDefaults(true);
-		this.saveConfig();
 		FileConfiguration config = this.getConfig();
+		if(!new File(this.getDataFolder(), "config.yml").exists()) {
+			config.options().copyDefaults(true);
+			this.saveConfig();
+		}
 		Settings.round = config.getBoolean("roundPosition");
 		Settings.portalSupport = config.getBoolean("portalSupport");
 		Settings.hostnameSupport = config.getBoolean("hostnameSupport");
