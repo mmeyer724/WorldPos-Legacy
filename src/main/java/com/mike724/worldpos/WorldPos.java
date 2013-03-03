@@ -22,8 +22,7 @@ import java.util.Set;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.mike724.worldpos.metrics.MetricsLite;
+import org.mcstats.MetricsLite;
 
 public class WorldPos extends JavaPlugin {
 
