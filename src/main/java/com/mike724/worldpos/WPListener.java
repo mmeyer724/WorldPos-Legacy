@@ -100,19 +100,22 @@ public class WPListener implements Listener {
 			for(Hostname hn : Settings.hostnames) {
 				String host = (hn.getHostname().split(":").length==2) ? hn.getHostname() : hn.getHostname()+":"+plugin.getServer().getPort();
 				
+				//Remove oddity with SRV records
+				String hnClient = event.getHostname().replaceFirst(".:", ":");
+				
 				//DEBUG
 				plugin.getLogger().info("IN LOOP");
 				plugin.getLogger().info("Hostname from config: "+hn.getHostname());
 				plugin.getLogger().info("Modified hostname from config (appends server port): "+host);
-				plugin.getLogger().info("getHostname method returned: "+event.getHostname());
+				plugin.getLogger().info("getHostname method returned: "+hnClient);
 				
-				if(event.getHostname().equalsIgnoreCase(host)) {
+				if(hnClient.equalsIgnoreCase(host)) {
 					
 					//DEBUG
 					plugin.getLogger().info("HOSTNAMES DID EQUAL EACH OTHER");
 					plugin.getLogger().info("Hostname from config: "+hn.getHostname());
 					plugin.getLogger().info("Modified hostname from config (appends server port): "+host);
-					plugin.getLogger().info("getHostname method returned: "+event.getHostname());
+					plugin.getLogger().info("getHostname method returned: "+hnClient);
 					
 					Player p = event.getPlayer();
 					if(!p.hasPermission("WorldPos.hostname."+hn.getKey())) {
