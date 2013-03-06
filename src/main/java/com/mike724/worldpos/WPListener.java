@@ -99,9 +99,17 @@ public class WPListener implements Listener {
 		if(Settings.hostnameSupport) {
 			for(Hostname hn : Settings.hostnames) {
 				String host = (hn.getHostname().split(":").length==2) ? hn.getHostname() : hn.getHostname()+":"+plugin.getServer().getPort();
+				
+				//DEBUG
+				plugin.getLogger().info("IN LOOP");
+				plugin.getLogger().info("Hostname from config: "+hn.getHostname());
+				plugin.getLogger().info("Modified hostname from config (appends server port): "+host);
+				plugin.getLogger().info("getHostname method returned: "+event.getHostname());
+				
 				if(event.getHostname().equalsIgnoreCase(host)) {
 					
 					//DEBUG
+					plugin.getLogger().info("HOSTNAMES DID EQUAL EACH OTHER");
 					plugin.getLogger().info("Hostname from config: "+hn.getHostname());
 					plugin.getLogger().info("Modified hostname from config (appends server port): "+host);
 					plugin.getLogger().info("getHostname method returned: "+event.getHostname());
