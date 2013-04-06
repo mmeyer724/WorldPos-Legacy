@@ -30,93 +30,102 @@ import java.io.IOException;
 import java.util.List;
 
 public class WPCommands implements CommandExecutor {
-	
-	private WorldPos plugin;
-	
-	public WPCommands(WorldPos wp) {
-		plugin = wp;
-	}
-	
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(command.getName().equalsIgnoreCase("worldpos") || command.getName().equalsIgnoreCase("wp")) {
-			if(args.length==0) {
-				PluginDescriptionFile pdf = plugin.getDescription();
-				sender.sendMessage(ChatColor.AQUA+"WorldPos v"+pdf.getVersion()+" by Mike724 is "+ChatColor.GOLD+"running");
-				return true;
-			} else if(args.length == 1) {
-				if(args[0].equalsIgnoreCase("list")) {
-					if(!sender.hasPermission("WorldPos.list")) {
-						sender.sendMessage(ChatColor.RED+"You do not have permission to list all worlds!");
-						return true;
-					}
-					List<World> worlds = Bukkit.getWorlds();
-					String send = ChatColor.AQUA+"[WorldPos]"+ChatColor.WHITE+" List of worlds: "+ChatColor.GRAY;
-					for(World w : worlds) {
-						send += w.getName()+", ";
-					}
-					sender.sendMessage(send.substring(0, send.length()-2));
-					return true;
-				} else if(args[0].equalsIgnoreCase("back")) {
-					if(sender instanceof Player) {
-						Player p = Bukkit.getPlayerExact(sender.getName());
-						if(!p.hasPermission("WorldPos.back")) {
-							sender.sendMessage(ChatColor.RED+"You do not have permission to go back!"); return true;
-						}
-						Location loc = Settings.previousLocations.get(p.getName());
-						if(loc!=null) {
-							p.teleport(loc); return true;
-						} else {
-							p.sendMessage(ChatColor.RED+"No previous position is known for this session"); return true;
-						}
-					} else {
-						sender.sendMessage(ChatColor.RED+"Only players can do that!"); return true;
-					}
-				}
-			}
-			return true;
-		}
-		if(command.getName().equalsIgnoreCase("world") || command.getName().equalsIgnoreCase("worldwarp")) {
-			World w; Player p;
-			if(args.length==1) {
-				w = Bukkit.getWorld(args[0]);
-				p = Bukkit.getPlayerExact(sender.getName());
-			} else if(args.length==2) {
-				w = Bukkit.getWorld(args[1]);
-				p = Bukkit.getPlayer(args[0]);
-			} else {
-				return false;
-			}
-			String wn = (w==null) ? "null" : w.getName();
-			if(p==null) {
-				sender.sendMessage(ChatColor.RED+"Target player could not be found"); return false;
-			}
-			if(w==null) {
-				sender.sendMessage(ChatColor.RED+"Target world could not be found"); return false;
-			}
-            if(!p.hasPermission("WorldPos.world."+wn)) {
-                sender.sendMessage(ChatColor.RED+"You do not have permission to access that world"); return true;
+
+    private WorldPos plugin;
+
+    public WPCommands(WorldPos wp) {
+        plugin = wp;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("worldpos") || command.getName().equalsIgnoreCase("wp")) {
+            if (args.length == 0) {
+                PluginDescriptionFile pdf = plugin.getDescription();
+                sender.sendMessage(ChatColor.AQUA + "WorldPos v" + pdf.getVersion() + " by Mike724 is " + ChatColor.GOLD + "running");
+                return true;
+            } else if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("list")) {
+                    if (!sender.hasPermission("WorldPos.list")) {
+                        sender.sendMessage(ChatColor.RED + "You do not have permission to list all worlds!");
+                        return true;
+                    }
+                    List<World> worlds = Bukkit.getWorlds();
+                    String send = ChatColor.AQUA + "[WorldPos]" + ChatColor.WHITE + " List of worlds: " + ChatColor.GRAY;
+                    for (World w : worlds) {
+                        send += w.getName() + ", ";
+                    }
+                    sender.sendMessage(send.substring(0, send.length() - 2));
+                    return true;
+                } else if (args[0].equalsIgnoreCase("back")) {
+                    if (sender instanceof Player) {
+                        Player p = Bukkit.getPlayerExact(sender.getName());
+                        if (!p.hasPermission("WorldPos.back")) {
+                            sender.sendMessage(ChatColor.RED + "You do not have permission to go back!");
+                            return true;
+                        }
+                        Location loc = Settings.previousLocations.get(p.getName());
+                        if (loc != null) {
+                            p.teleport(loc);
+                            return true;
+                        } else {
+                            p.sendMessage(ChatColor.RED + "No previous position is known for this session");
+                            return true;
+                        }
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Only players can do that!");
+                        return true;
+                    }
+                }
             }
-            if(args.length == 2 && !p.hasPermission("WorldPos.world."+wn+".others")) {
-                sender.sendMessage(ChatColor.RED+"You do not have permission to access that world"); return true;
+            return true;
+        }
+        if (command.getName().equalsIgnoreCase("world") || command.getName().equalsIgnoreCase("worldwarp")) {
+            World w;
+            Player p;
+            if (args.length == 1) {
+                w = Bukkit.getWorld(args[0]);
+                p = Bukkit.getPlayerExact(sender.getName());
+            } else if (args.length == 2) {
+                w = Bukkit.getWorld(args[1]);
+                p = Bukkit.getPlayer(args[0]);
+            } else {
+                return false;
             }
-			if(w!=p.getWorld()) {
-				try {
-					p.teleport(LocationManager.getPastLocation(w, p));
-					p.sendMessage(ChatColor.AQUA+"Teleported to world "+ChatColor.YELLOW+wn);
-					return true;
-				} catch(IOException e) {
-					e.printStackTrace();
-					p.sendMessage(ChatColor.RED+"Could not read player data! Report to admin");
-					plugin.getLogger().severe("ERROR Reading player position data, report this please.");
-					return true;
-				}
-			} else {
-				sender.sendMessage(ChatColor.AQUA+"You are already in world "+ChatColor.YELLOW+wn);
-				return true;
-			}
-		}
-		return false;
-	}
-	
+            String wn = (w == null) ? "null" : w.getName();
+            if (p == null) {
+                sender.sendMessage(ChatColor.RED + "Target player could not be found");
+                return false;
+            }
+            if (w == null) {
+                sender.sendMessage(ChatColor.RED + "Target world could not be found");
+                return false;
+            }
+            if (!p.hasPermission("WorldPos.world." + wn)) {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to access that world");
+                return true;
+            }
+            if (args.length == 2 && !p.hasPermission("WorldPos.world." + wn + ".others")) {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to access that world");
+                return true;
+            }
+            if (w != p.getWorld()) {
+                try {
+                    p.teleport(LocationManager.getPastLocation(w, p));
+                    p.sendMessage(ChatColor.AQUA + "Teleported to world " + ChatColor.YELLOW + wn);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    p.sendMessage(ChatColor.RED + "Could not read player data! Report to admin");
+                    plugin.getLogger().severe("ERROR Reading player position data, report this please.");
+                    return true;
+                }
+            } else {
+                sender.sendMessage(ChatColor.AQUA + "You are already in world " + ChatColor.YELLOW + wn);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
