@@ -105,8 +105,8 @@ public class WPCommands implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "You do not have permission to access that world");
                 return true;
             }
-            if (args.length == 2 && !p.hasPermission("WorldPos.world." + wn + ".others")) {
-                sender.sendMessage(ChatColor.RED + "You do not have permission to access that world");
+            if (args.length == 2 && !sender.hasPermission("WorldPos.world." + wn + ".others")) {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to teleport others");
                 return true;
             }
             if (w != p.getWorld()) {
