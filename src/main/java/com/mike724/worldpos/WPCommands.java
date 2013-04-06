@@ -16,9 +16,6 @@
 */
 package com.mike724.worldpos;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,6 +25,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
+
+import java.io.IOException;
+import java.util.List;
 
 public class WPCommands implements CommandExecutor {
 	
@@ -94,9 +94,12 @@ public class WPCommands implements CommandExecutor {
 			if(w==null) {
 				sender.sendMessage(ChatColor.RED+"Target world could not be found"); return false;
 			}
-			if(!p.hasPermission("WorldPos.world."+wn)) {
-				sender.sendMessage(ChatColor.RED+"You do not have permission to access that world"); return true;
-			}
+            if(!p.hasPermission("WorldPos.world."+wn)) {
+                sender.sendMessage(ChatColor.RED+"You do not have permission to access that world"); return true;
+            }
+            if(args.length == 2 && !p.hasPermission("WorldPos.world."+wn+".others")) {
+                sender.sendMessage(ChatColor.RED+"You do not have permission to access that world"); return true;
+            }
 			if(w!=p.getWorld()) {
 				try {
 					p.teleport(LocationManager.getPastLocation(w, p));

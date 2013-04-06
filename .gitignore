@@ -5,6 +5,8 @@
 bin/*
 target/*
 dependency-reduced-pom.xml
+.idea/*
+*.iml
 
 # Package Files #
 *.jar
