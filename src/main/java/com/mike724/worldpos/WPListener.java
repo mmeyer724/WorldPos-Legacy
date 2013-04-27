@@ -105,7 +105,12 @@ public class WPListener implements Listener {
                 //Remove oddity in some hostnames
                 String hnClient = event.getHostname().replaceFirst(".:", ":");
 
-                if (hnClient.equalsIgnoreCase(host)) {
+                plugin.getLogger().info("Client joined with HN: "+hnClient);
+                plugin.getLogger().info("Checking it against: "+host);
+                boolean match = hnClient.equalsIgnoreCase(host);
+                plugin.getLogger().info("Result: "+match);
+
+                if (match) {
                     Player p = event.getPlayer();
 
                     String perm = "WorldPos.hostname." + hn.getKey();
