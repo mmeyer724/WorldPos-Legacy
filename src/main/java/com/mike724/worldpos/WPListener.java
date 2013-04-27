@@ -27,6 +27,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
 public class WPListener implements Listener {
@@ -103,10 +104,10 @@ public class WPListener implements Listener {
                 String host = (hn.getHostname().split(":").length == 2) ? hn.getHostname() : hn.getHostname() + ":" + plugin.getServer().getPort();
 
                 //Remove oddity in some hostnames
-                String hnClient = event.getHostname().replaceFirst(".:", ":");
+                String hnClient = event.getHostname().replaceFirst(Pattern.quote(".:"), ":");
                 plugin.getLogger().info("Client joined with HN (raw): "+event.getHostname());
-                plugin.getLogger().info("Client joined with HN (parsed): "+hnClient);
-                plugin.getLogger().info("Checking it against: "+host);
+                plugin.getLogger().info("Client joined with HN (parsed): " + hnClient);
+                plugin.getLogger().info("Checking it against: " + host);
                 boolean match = hnClient.equalsIgnoreCase(host);
                 plugin.getLogger().info("Result: "+match);
 
