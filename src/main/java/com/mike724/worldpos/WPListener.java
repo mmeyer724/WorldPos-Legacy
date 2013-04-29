@@ -110,12 +110,8 @@ public class WPListener implements Listener {
 
                 if (match) {
                     Player p = event.getPlayer();
-
                     String perm = "WorldPos.hostname." + hn.getKey();
-                    plugin.getLogger().info("Checking for permission: "+perm);
                     boolean hasPerm = p.hasPermission(perm);
-                    plugin.getLogger().info("Player "+p.getName()+" perm check result: "+hasPerm);
-
                     if (!hasPerm) {
                         event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
                         event.setKickMessage("You do not have permission to access that world");
