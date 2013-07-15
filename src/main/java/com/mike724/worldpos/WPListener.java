@@ -56,7 +56,8 @@ public class WPListener implements Listener {
         String wnT = event.getTo().getWorld().getName();
 
         if (Settings.portalSupport) {
-            if (!wnF.equalsIgnoreCase(wnT) && event.getTo().getY() == 300) {
+            float maxDiff = 0.55f;
+            if (!wnF.equalsIgnoreCase(wnT) && Math.abs(event.getTo().getY() - 300) <= maxDiff) {
                 try {
                     if (!p.hasPermission("WorldPos.portal." + wnT)) {
                         p.sendMessage(ChatColor.RED + "You do not have permission to use this portal");
