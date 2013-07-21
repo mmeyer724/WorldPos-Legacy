@@ -41,21 +41,21 @@ public class WPListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player p = event.getPlayer();
-        if (Settings.hostnameTeleport.containsKey(p.getName())) {
-            World w = Settings.hostnameTeleport.get(p.getName()).getWorld();
+        if (WPSettings.hostnameTeleport.containsKey(p.getName())) {
+            World w = WPSettings.hostnameTeleport.get(p.getName()).getWorld();
             plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedTeleport(p, w), 1L);
-            if (Settings.hostnameMessage) {
+            if (WPSettings.hostnameMessage) {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new DelayedMessage(p, ChatColor.AQUA + "Welcome to world " + ChatColor.YELLOW + w.getName()), 5L);
             }
-            Settings.hostnameTeleport.remove(p.getName());
-            Settings.justHNTeleported.add(p.getName());
+            WPSettings.hostnameTeleport.remove(p.getName());
+            WPSettings.justHNTeleported.add(p.getName());
             return;
         }
 
         String wnF = event.getFrom().getWorld().getName();
         String wnT = event.getTo().getWorld().getName();
 
-        if (Settings.portalSupport) {
+        if (WPSettings.portalSupport) {
             float maxDiff = 0.55f;
             if (!wnF.equalsIgnoreCase(wnT) && Math.abs(event.getTo().getY() - 300) <= maxDiff) {
                 try {
@@ -76,11 +76,11 @@ public class WPListener implements Listener {
         if (!wnF.equalsIgnoreCase(wnT)) {
             try {
                 LocationManager.setPastLocation(event.getFrom(), p);
-                Settings.setPreviousLocation(p, event.getFrom());
-                if (!Settings.justHNTeleported.contains(p.getName())) {
+                WPSettings.setPreviousLocation(p, event.getFrom());
+                if (!WPSettings.justHNTeleported.contains(p.getName())) {
                     p.sendMessage(ChatColor.AQUA + "Your previous position in world " + ChatColor.YELLOW + wnF + ChatColor.AQUA + " has been saved.");
                 } else {
-                    Settings.justHNTeleported.remove(p.getName());
+                    WPSettings.justHNTeleported.remove(p.getName());
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -100,8 +100,8 @@ public class WPListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerLogin(PlayerLoginEvent event) {
-        if (Settings.hostnameSupport) {
-            for (Hostname hn : Settings.hostnames) {
+        if (WPSettings.hostnameSupport) {
+            for (Hostname hn : WPSettings.hostnames) {
                 String host = (hn.getHostname().split(":").length == 2) ? hn.getHostname() : hn.getHostname() + ":" + plugin.getServer().getPort();
 
                 //Remove oddity in some hostnames
@@ -118,7 +118,7 @@ public class WPListener implements Listener {
                         event.setKickMessage("You do not have permission to access that world");
                         return;
                     }
-                    Settings.hostnameTeleport.put(p.getName(), hn);
+                    WPSettings.hostnameTeleport.put(p.getName(), hn);
                     return;
                 }
             }

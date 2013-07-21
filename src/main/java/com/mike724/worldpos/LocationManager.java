@@ -30,7 +30,7 @@ import java.util.Locale;
 public class LocationManager {
 
     public static Location getPastLocation(World world, Player player) throws IOException {
-        File file = new File(Settings.dataDir.toString() + File.separator + player.getName() + ".txt");
+        File file = new File(WPSettings.dataDir.toString() + File.separator + player.getName() + ".txt");
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -52,7 +52,7 @@ public class LocationManager {
 
     public static boolean setPastLocation(Location loc, Player player) throws IOException {
         String needle = loc.getWorld().getName();
-        File file = new File(Settings.dataDir.toString() + File.separator + player.getName() + ".txt");
+        File file = new File(WPSettings.dataDir.toString() + File.separator + player.getName() + ".txt");
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -66,7 +66,7 @@ public class LocationManager {
         }
         in.close();
         DecimalFormat df = new DecimalFormat("#.######", new DecimalFormatSymbols(Locale.US));
-        String newLocLine = (Settings.round) ?
+        String newLocLine = (WPSettings.round) ?
                 needle + "," + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() :
                 needle + "," + df.format(loc.getX()) + "," + df.format(loc.getY()) + "," + df.format(loc.getZ());
         oldLines.add(newLocLine);

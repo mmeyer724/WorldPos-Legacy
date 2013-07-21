@@ -36,27 +36,27 @@ public class WorldPos extends JavaPlugin {
         if (!this.getDataFolder().exists()) {
             this.getDataFolder().mkdir();
         }
-        Settings.dataDir = new File(this.getDataFolder().toString() + File.separator + "players");
-        if (!Settings.dataDir.exists()) {
-            Settings.dataDir.mkdir();
+        WPSettings.dataDir = new File(this.getDataFolder().toString() + File.separator + "players");
+        if (!WPSettings.dataDir.exists()) {
+            WPSettings.dataDir.mkdir();
         }
         FileConfiguration config = this.getConfig();
         if (!new File(this.getDataFolder(), "config.yml").exists()) {
             config.options().copyDefaults(true);
             this.saveConfig();
         }
-        Settings.round = config.getBoolean("roundPosition");
-        Settings.portalSupport = config.getBoolean("portalSupport");
-        Settings.hostnameSupport = config.getBoolean("hostnameSupport");
-        Settings.hostnameMessage = config.getBoolean("messageOnHostnameTeleportToWorld");
-        if (Settings.hostnameSupport) {
+        WPSettings.round = config.getBoolean("roundPosition");
+        WPSettings.portalSupport = config.getBoolean("portalSupport");
+        WPSettings.hostnameSupport = config.getBoolean("hostnameSupport");
+        WPSettings.hostnameMessage = config.getBoolean("messageOnHostnameTeleportToWorld");
+        if (WPSettings.hostnameSupport) {
             Set<String> keys = config.getConfigurationSection("hostnames").getKeys(false);
-            Settings.hostnames.clear();
+            WPSettings.hostnames.clear();
             for (String key : keys) {
                 String wn = config.getString("hostnames." + key + ".world");
                 try {
                     Hostname hn = new Hostname(config.getString("hostnames." + key + ".hostname"), key, wn);
-                    Settings.hostnames.add(hn);
+                    WPSettings.hostnames.add(hn);
                 } catch (Exception e) {
                     this.getLogger().warning("The world " + wn + " does not exist! Skipping");
                 }

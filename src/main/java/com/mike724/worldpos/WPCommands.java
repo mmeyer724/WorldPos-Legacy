@@ -64,7 +64,7 @@ public class WPCommands implements CommandExecutor {
                             sender.sendMessage(ChatColor.RED + "You do not have permission to go back!");
                             return true;
                         }
-                        Location loc = Settings.previousLocations.get(p.getName());
+                        Location loc = WPSettings.previousLocations.get(p.getName());
                         if (loc != null) {
                             p.teleport(loc);
                             return true;
