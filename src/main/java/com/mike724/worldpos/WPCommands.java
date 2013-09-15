@@ -112,7 +112,7 @@ public class WPCommands implements CommandExecutor {
             if (w != p.getWorld()) {
                 try {
                     p.teleport(LocationManager.getPastLocation(w, p));
-                    p.sendMessage(ChatColor.AQUA + "Teleported to world " + ChatColor.YELLOW + wn);
+                    if(WPSettings.teleportMessage) p.sendMessage(ChatColor.AQUA + "Teleported to world " + ChatColor.YELLOW + wn);
                     return true;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -121,7 +121,7 @@ public class WPCommands implements CommandExecutor {
                     return true;
                 }
             } else {
-                sender.sendMessage(ChatColor.AQUA + "You are already in world " + ChatColor.YELLOW + wn);
+                if(WPSettings.teleportMessage) sender.sendMessage(ChatColor.AQUA + "You are already in world " + ChatColor.YELLOW + wn);
                 return true;
             }
         }

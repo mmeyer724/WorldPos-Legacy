@@ -49,6 +49,8 @@ public class WorldPos extends JavaPlugin {
         WPSettings.portalSupport = config.getBoolean("portalSupport");
         WPSettings.hostnameSupport = config.getBoolean("hostnameSupport");
         WPSettings.hostnameMessage = config.getBoolean("messageOnHostnameTeleportToWorld");
+        WPSettings.teleportMessage = config.getBoolean("teleportMessages");
+        WPSettings.saveMessage = config.getBoolean("saveMessages");
         if (WPSettings.hostnameSupport) {
             Set<String> keys = config.getConfigurationSection("hostnames").getKeys(false);
             WPSettings.hostnames.clear();

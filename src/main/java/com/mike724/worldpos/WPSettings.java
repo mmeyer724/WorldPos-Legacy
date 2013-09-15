@@ -31,6 +31,8 @@ public class WPSettings {
     public static boolean portalSupport = false;
     public static boolean hostnameSupport = false;
     public static boolean hostnameMessage = false;
+    public static boolean teleportMessage = false;
+    public static boolean saveMessage = false;
     public static ArrayList<Hostname> hostnames = new ArrayList<Hostname>();
     public static HashMap<String, Hostname> hostnameTeleport = new HashMap<String, Hostname>();
     public static Set<String> justHNTeleported = new HashSet<String>();
