@@ -16,6 +16,7 @@
 */
 package com.mike724.worldpos;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -38,12 +39,20 @@ public class LocationManager {
         String line;
         while ((line = in.readLine()) != null) {
             String[] params = line.split(",");
-            if (params.length != 4) {
+            if (!(params.length >= 4)) {
                 continue;
             }
             if (params[0].equalsIgnoreCase(world.getName())) {
                 in.close();
-                return (new Location(world, Double.parseDouble(params[1]), Double.parseDouble(params[2]), Double.parseDouble(params[3])));
+
+                Location loc = new Location(world, Double.parseDouble(params[1]), Double.parseDouble(params[2]), Double.parseDouble(params[3]));
+
+                //Are yaw and pitch included?
+                if(params.length != 4) {
+                    loc.setYaw(Float.parseFloat(params[4]));
+                    loc.setPitch(Float.parseFloat(params[5]));
+                }
+                return loc;
             }
         }
         in.close();
@@ -69,6 +78,7 @@ public class LocationManager {
         String newLocLine = (WPSettings.round) ?
                 needle + "," + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() :
                 needle + "," + df.format(loc.getX()) + "," + df.format(loc.getY()) + "," + df.format(loc.getZ());
+        newLocLine += ("," + loc.getYaw() + "," + loc.getPitch());
         oldLines.add(newLocLine);
         BufferedWriter br = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
         String finalTxt = "";
