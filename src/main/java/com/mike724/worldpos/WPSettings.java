@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WPSettings {
+    public static File dataDirOld = null;
     public static File dataDir = null;
     public static boolean round = false;
     public static boolean portalSupport = false;

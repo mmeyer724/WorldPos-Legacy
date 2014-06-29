@@ -20,7 +20,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Set;
 
 public class WorldPos extends JavaPlugin {
@@ -35,7 +34,11 @@ public class WorldPos extends JavaPlugin {
         if (!this.getDataFolder().exists()) {
             this.getDataFolder().mkdir();
         }
-        WPSettings.dataDir = new File(this.getDataFolder().toString() + File.separator + "players");
+        WPSettings.dataDirOld = new File(this.getDataFolder().toString() + File.separator + "players");
+        if (!WPSettings.dataDirOld.exists()) {
+            WPSettings.dataDirOld.mkdir();
+        }
+        WPSettings.dataDir = new File(WPSettings.dataDirOld, "uuid");
         if (!WPSettings.dataDir.exists()) {
             WPSettings.dataDir.mkdir();
         }

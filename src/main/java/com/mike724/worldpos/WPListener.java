@@ -64,7 +64,8 @@ public class WPListener implements Listener {
                         event.setCancelled(true);
                     } else {
                         event.setTo(LocationManager.getPastLocation(event.getTo().getWorld(), p));
-                        if(WPSettings.teleportMessage) p.sendMessage(ChatColor.AQUA + "Teleported to world " + ChatColor.YELLOW + wnT + ChatColor.AQUA + " via portal.");
+                        if (WPSettings.teleportMessage)
+                            p.sendMessage(ChatColor.AQUA + "Teleported to world " + ChatColor.YELLOW + wnT + ChatColor.AQUA + " via portal.");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -78,7 +79,8 @@ public class WPListener implements Listener {
                 LocationManager.setPastLocation(event.getFrom(), p);
                 WPSettings.setPreviousLocation(p, event.getFrom());
                 if (!WPSettings.justHNTeleported.contains(p.getName())) {
-                    if(WPSettings.saveMessage) p.sendMessage(ChatColor.AQUA + "Your previous position in world " + ChatColor.YELLOW + wnF + ChatColor.AQUA + " has been saved.");
+                    if (WPSettings.saveMessage)
+                        p.sendMessage(ChatColor.AQUA + "Your previous position in world " + ChatColor.YELLOW + wnF + ChatColor.AQUA + " has been saved.");
                 } else {
                     WPSettings.justHNTeleported.remove(p.getName());
                 }

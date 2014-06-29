@@ -16,7 +16,6 @@
 */
 package com.mike724.worldpos;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -31,7 +30,7 @@ import java.util.Locale;
 public class LocationManager {
 
     public static Location getPastLocation(World world, Player player) throws IOException {
-        File file = new File(WPSettings.dataDir.toString() + File.separator + player.getName() + ".txt");
+        File file = new File(WPSettings.dataDir.toString() + File.separator + player.getUniqueId() + ".txt");
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -48,7 +47,7 @@ public class LocationManager {
                 Location loc = new Location(world, Double.parseDouble(params[1]), Double.parseDouble(params[2]), Double.parseDouble(params[3]));
 
                 //Are yaw and pitch included?
-                if(params.length != 4) {
+                if (params.length > 4) {
                     loc.setYaw(Float.parseFloat(params[4]));
                     loc.setPitch(Float.parseFloat(params[5]));
                 }
@@ -61,7 +60,7 @@ public class LocationManager {
 
     public static boolean setPastLocation(Location loc, Player player) throws IOException {
         String needle = loc.getWorld().getName();
-        File file = new File(WPSettings.dataDir.toString() + File.separator + player.getName() + ".txt");
+        File file = new File(WPSettings.dataDir.toString() + File.separator + player.getUniqueId().toString() + ".txt");
         if (!file.exists()) {
             file.createNewFile();
         }
